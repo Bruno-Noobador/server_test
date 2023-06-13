@@ -6,6 +6,13 @@ const app = express()
 
 app.use(express.static(__dirname + '/public'))
 
+app.use("/", (req, res) => {
+  if (title == undefined || source == undefined || description == undefined || thumb == undefined) {
+    res.send("fuck you")
+    return
+  }
+})
+
 app.use("/create", async (req, res) => {
   const { title, source, description, thumb } = req.query
   const db = await getDatabaseInstance()
@@ -16,9 +23,9 @@ app.use("/create", async (req, res) => {
   res.send(result)
 })
 
-app.use("/read", (req, res) => {
+app.use("/read", async (req, res) => {
   const { file } = req.query
-  // fs.readFileSync
+  const db = await getDatabaseInstance()
 })
 
 app.use("/update", (req, res) => {

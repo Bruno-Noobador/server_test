@@ -15,7 +15,7 @@
         document.body.innerHTML += `<button>
             ${pessoa.nome}, 
             ${year - pessoa["data-nascimento"][0]}, 
-            ${pessoa.pnc ? "PNC" : ""}
+            ${pessoa["usa-oculos"] ? "Usa Óculos" : ""}
           </button>` 
       })
     }

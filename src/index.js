@@ -4,38 +4,85 @@ const { getDatabaseInstance } = require("./database")
 
 const app = express()
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/../public'))
+app.use(express.json())
 
-app.use("/", (req, res) => {
-  if (title == undefined || source == undefined || description == undefined || thumb == undefined) {
-    res.send("fuck you")
+app.post("/movies", async (req, res) => {
+  const { title, source, description, thumb } = req.body
+  const db = await getDatabaseInstance()
+  const result = await db.run(`INSERT INTO movies(title, source, description, thumb) VALUES(?, ?, ?, ?)`, [title, source, description, thumb])
+  res.json(result)
+})
+
+app.get("/movies", async (req, res) => {
+  const { id } = req.query
+  const db = await getDatabaseInstance()
+  if (id) {
+    const result = await db.get(`SELECT * FROM movies WHERE id=?`, id)
+    res.json(result)
     return
   }
+  const result = await db.all(`SELECT * FROM movies`)
+  res.json(result)
 })
 
-app.use("/create", async (req, res) => {
-  const { title, source, description, thumb } = req.query
+app.put("/movies", async (req, res) => {
+  const { id } = req.query
+  const { title, source, description, thumb } = req.body
   const db = await getDatabaseInstance()
-  const result = await db.run(`
-    INSERT INTO movies(title, source, description, thumb) VALUES(?, ?, ?, ?)`,
-    [title, source, description, thumb]
+  const result = await db.run(
+    `UPDATE movies SET title=?, source=?, description=?, thumb=? WHERE id=?`,
+    title, source, description, thumb, id
   )
-  res.send(result)
+  res.json(result)
 })
 
-app.use("/read", async (req, res) => {
-  const { file } = req.query
+// ??????? PATCH
+
+app.patch("/movies", async (req, res) => {
+  const { id } = req.query
   const db = await getDatabaseInstance()
+  const sets = Object.keys(req.body).map(col => `${col}=?`).join(", ")
+  const values = [...Object.values(req.body), id]
+  const result = await db.run(`UPDATE movies SET ${sets} WHERE id=?`, values)
+  res.json(result)
+  return
+  
+  // if(title) {
+  //   console.log("Title")
+  //   const result = await db.run(`UPDATE movies SET title=? WHERE id=?`, [title, id])
+  //   res.json(result)
+  //   return
+  // }
+
+  // if(source) {
+  //   const result = await db.run(`UPDATE movies SET source=? WHERE id=?`, [source, id])
+  //   res.json(result)
+  //   return
+  // }
+
+  // if(description) {
+  //   const result = await db.run(`UPDATE movies SET description=? WHERE id=?`, [description, id])
+  //   res.json(result)
+  //   return
+  // }
+
+  // if(thumb) {
+  //   const result = await db.run(`UPDATE movies SET thumb=? WHERE id=?`, [thumb, id])
+  //   res.json(result)
+  //   return
+  // }
+
+  res.send("sei lá mano")
 })
 
-app.use("/update", (req, res) => {
-  const { file, text } = req.query
-  // fs.appendFileSync
+app.delete("/movies", async (req, res) => {
+  const { id } = req.query
+  const db = await getDatabaseInstance()
+  const result = await db.run(`DELETE FROM movies WHERE id=?`, id)
+  res.json(result)
 })
 
-app.use("/delete", (req, res) => {
-  const { file } = req.query
-  // fs.rmSync
-})
+app.use("/*", (req, res) => res.status(404).sendFile(__dirname + '/pages/not found.html'))
 
 app.listen(3000, () => console.log("Servidor rodando!"))

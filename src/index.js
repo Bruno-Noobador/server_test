@@ -47,33 +47,6 @@ app.patch("/movies", async (req, res) => {
   const result = await db.run(`UPDATE movies SET ${sets} WHERE id=?`, values)
   res.json(result)
   return
-  
-  // if(title) {
-  //   console.log("Title")
-  //   const result = await db.run(`UPDATE movies SET title=? WHERE id=?`, [title, id])
-  //   res.json(result)
-  //   return
-  // }
-
-  // if(source) {
-  //   const result = await db.run(`UPDATE movies SET source=? WHERE id=?`, [source, id])
-  //   res.json(result)
-  //   return
-  // }
-
-  // if(description) {
-  //   const result = await db.run(`UPDATE movies SET description=? WHERE id=?`, [description, id])
-  //   res.json(result)
-  //   return
-  // }
-
-  // if(thumb) {
-  //   const result = await db.run(`UPDATE movies SET thumb=? WHERE id=?`, [thumb, id])
-  //   res.json(result)
-  //   return
-  // }
-
-  res.send("sei lá mano")
 })
 
 app.delete("/movies", async (req, res) => {

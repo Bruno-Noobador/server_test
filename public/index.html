@@ -1,29 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Teste</title>
-  </head>
-  <body>
-  <b>404 error</b>
-  <p>Path not found</p>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="/movies" method="get">
+    <div>
+      <label for="file">Filename:</label>
+      <input type="text" id="file" name="title">
+    </div>
+    <div>
+      <label for="text">Text for file:</label>
+      <input type="text" id="text" name="source">
+    </div>
+    <div>
+      <label for="text">Text for file:</label>
+      <input type="text" id="text" name="description">
+    </div>
+    <div>
+      <label for="text">Text for file:</label>
+      <input type="text" id="text" name="thumb">
+    </div>
+    <div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
 
-  <!-- <script>
-    async function main() {
-      const request = await fetch("meus-dados.json")
-      const data = await request.json()
-      const year = new Date().getFullYear()
+  <ul>
+    "title": "AAAAAA",
+    "source": "AAAAAA",
+    "description": "aaaaaaa",
+    "thumb": "undefined"
+  </ul>
 
-      data.forEach(pessoa => {
-        document.body.innerHTML += `<button>
-            ${pessoa.nome}, 
-            ${year - pessoa["data-nascimento"][0]}, 
-            ${pessoa["usa-oculos"] ? "Usa Óculos" : ""}
-          </button>` 
-      })
-    }
-    main()
-  </script> -->
 </body>
+<script>
+  const domMovieList = document.querySelector("ul.movie-list")
+    
+    async function listarTodosOsFilmes() {
+      const response = await fetch("/movies")
+      const movies = await response.json()
+</script>
 </html>

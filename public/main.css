@@ -1,0 +1,31 @@
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul.movie-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  ul.movie-list > li {
+    border: 1px solid #000000;
+    margin: 1rem;
+    cursor: pointer;
+  }
+  
+  ul.movie-list > li > div {
+    background-color: #000000;
+    padding: .25rem .5rem;
+    color: #FFFFFF;
+  }
+
+  ul.movie-list > li > ul {
+    padding: .5rem;
+    transition: .3s;
+  }
+
+  ul.movie-list > li > ul:hover {
+    background-color: #00000033;
+  }

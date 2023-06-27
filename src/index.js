@@ -22,7 +22,7 @@ app.get("/movies", async (req, res) => {
     res.json(result)
     return
   }
-  const result = await db.all(`SELECT * FROM movies`)
+  const result = await db.all(`SELECT * FROM movies ORDER BY ID DESC`)
   res.json(result)
 })
 
@@ -58,4 +58,4 @@ app.delete("/movies", async (req, res) => {
 
 app.use("/*", (req, res) => res.status(404).sendFile(__dirname + '/pages/not found.html'))
 
-app.listen(3000, () => console.log("Servidor rodando!"))
+app.listen(3001, () => console.log("Servidor rodando!"))

@@ -58,4 +58,4 @@ app.delete("/movies", async (req, res) => {
 
 app.use("/*", (req, res) => res.status(404).sendFile(__dirname + '/pages/not found.html'))
 
-app.listen(3001, () => console.log("Servidor rodando!"))
+app.listen(3000, () => console.log("Servidor rodando!"))

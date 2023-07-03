@@ -4,6 +4,7 @@ const sendButton = domFormAdicionar.querySelector("button")
 
 // ---✀------------------------------------------------------------------
 
+	console.log("page reloaded")
     async function listarTodosOsFilmes() {
       const response = await fetch("/movies")
       const movies = await response.json()
@@ -43,8 +44,6 @@ const sendButton = domFormAdicionar.querySelector("button")
       ev.stopPropagation()
       ev.stopImmediatePropagation()
 
-      let httpMethod = "POST"
-
       const body = JSON.stringify({
         title: domFormAdicionar.title.value,
         source: domFormAdicionar.source.value,
@@ -53,13 +52,22 @@ const sendButton = domFormAdicionar.querySelector("button")
       })
 
       if (sendButton.dataset.id) {
-        httpMethod = "PUT"
-        sendButton.dataset.id = undefined
+        console.log("botao alterar")
+        const response = await fetch(`/movies?id=${sendButton.dataset.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body
+        })
+        sendButton.removeAttribute("data-id")
+        // sendButton.innerText = "Enviar"
+        domFormAdicionar.reset()
         sendButton.innerText = "Enviar"
+        listarTodosOsFilmes()
+        return
       }
 
       const response = await fetch("/movies", {
-        method: httpMethod,
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body
       })
@@ -94,7 +102,9 @@ const sendButton = domFormAdicionar.querySelector("button")
         console.log(sendButton)
         sendButton.innerText = "Alterar"
         sendButton.dataset.id = movieData.id
-        const sendResponse = await fetch(`/movies?id=${ev.target.dataset.id}`, {method: "PUT"})
+        
+        console.log("Did not fetch")
+        console.log(ev.target.dataset.id)
 
         listarTodosOsFilmes()
         return
